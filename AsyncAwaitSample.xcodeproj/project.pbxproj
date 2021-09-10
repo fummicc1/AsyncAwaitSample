@@ -10,6 +10,8 @@
 		3789644126E9AB4A0063BE98 /* UseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3789644026E9AB4A0063BE98 /* UseCaseTests.swift */; };
 		3789644326E9AB540063BE98 /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3789644226E9AB540063BE98 /* ViewModelTests.swift */; };
 		3789644826E9AC930063BE98 /* StubKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3789644726E9AC930063BE98 /* StubKit */; };
+		37C8E6DF26EB50BB00429BD7 /* AsyncViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C8E6DE26EB50BB00429BD7 /* AsyncViewModel.swift */; };
+		37C8E6E126EB517000429BD7 /* Task+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C8E6E026EB517000429BD7 /* Task+Ex.swift */; };
 		37F8E85426E8AF22003C6812 /* AsyncAwaitSampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F8E85326E8AF22003C6812 /* AsyncAwaitSampleApp.swift */; };
 		37F8E85626E8AF22003C6812 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F8E85526E8AF22003C6812 /* ContentView.swift */; };
 		37F8E85826E8AF28003C6812 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37F8E85726E8AF28003C6812 /* Assets.xcassets */; };
@@ -43,6 +45,8 @@
 /* Begin PBXFileReference section */
 		3789644026E9AB4A0063BE98 /* UseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseTests.swift; sourceTree = "<group>"; };
 		3789644226E9AB540063BE98 /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
+		37C8E6DE26EB50BB00429BD7 /* AsyncViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncViewModel.swift; sourceTree = "<group>"; };
+		37C8E6E026EB517000429BD7 /* Task+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+Ex.swift"; sourceTree = "<group>"; };
 		37F8E85026E8AF22003C6812 /* AsyncAwaitSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AsyncAwaitSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37F8E85326E8AF22003C6812 /* AsyncAwaitSampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncAwaitSampleApp.swift; sourceTree = "<group>"; };
 		37F8E85526E8AF22003C6812 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -85,6 +89,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		37C8E6DD26EB50A900429BD7 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				37F8E87D26E8AF5C003C6812 /* ViewModel.swift */,
+				37C8E6DE26EB50BB00429BD7 /* AsyncViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		37F8E84726E8AF22003C6812 = {
 			isa = PBXGroup;
 			children = (
@@ -108,14 +121,15 @@
 		37F8E85226E8AF22003C6812 /* AsyncAwaitSample */ = {
 			isa = PBXGroup;
 			children = (
+				37C8E6DD26EB50A900429BD7 /* ViewModels */,
 				37F8E85326E8AF22003C6812 /* AsyncAwaitSampleApp.swift */,
 				37F8E85526E8AF22003C6812 /* ContentView.swift */,
 				37F8E85726E8AF28003C6812 /* Assets.xcassets */,
 				37F8E85926E8AF28003C6812 /* Preview Content */,
-				37F8E87D26E8AF5C003C6812 /* ViewModel.swift */,
 				37F8E87F26E8C15D003C6812 /* APIClient.swift */,
 				37F8E88126E8C206003C6812 /* QiitaResponse.swift */,
 				37F8E88326E8C49E003C6812 /* UseCase.swift */,
+				37C8E6E026EB517000429BD7 /* Task+Ex.swift */,
 			);
 			path = AsyncAwaitSample;
 			sourceTree = "<group>";
@@ -287,8 +301,10 @@
 				37F8E88226E8C206003C6812 /* QiitaResponse.swift in Sources */,
 				37F8E85626E8AF22003C6812 /* ContentView.swift in Sources */,
 				37F8E87E26E8AF5C003C6812 /* ViewModel.swift in Sources */,
+				37C8E6E126EB517000429BD7 /* Task+Ex.swift in Sources */,
 				37F8E88426E8C49E003C6812 /* UseCase.swift in Sources */,
 				37F8E85426E8AF22003C6812 /* AsyncAwaitSampleApp.swift in Sources */,
+				37C8E6DF26EB50BB00429BD7 /* AsyncViewModel.swift in Sources */,
 				37F8E88026E8C15D003C6812 /* APIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

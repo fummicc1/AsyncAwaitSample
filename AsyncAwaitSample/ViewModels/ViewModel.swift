@@ -1,12 +1,6 @@
 import Foundation
 import Combine
 
-extension Task {
-    func store(in cancellables: inout Set<Task<Success, Failure>>) {
-        cancellables.insert(self)
-    }
-}
-
 class ViewModel: ObservableObject {
     
     @Published var searchText: String = ""

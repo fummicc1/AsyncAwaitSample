@@ -18,6 +18,53 @@
             endingLineNumber = "23"
             landmarkName = "waitForMain()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7B718FE9-4B83-4322-A29F-68115543E273 - 2d764ebcdcf1cad7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AsyncAwaitSampleTests.ViewModelTests.waitForMain() async -&gt; ()"
+                  moduleName = "AsyncAwaitSampleTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/uu206340/Work/AsyncAwaitSample/AsyncAwaitSampleTests/ViewModelTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "23"
+                  endingLineNumber = "23"
+                  offsetFromSymbolStart = "78">
+               </Location>
+               <Location
+                  uuid = "7B718FE9-4B83-4322-A29F-68115543E273 - e277c19eb72bc0b9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) await resume partial function for AsyncAwaitSampleTests.ViewModelTests.waitForMain() async -&gt; ()"
+                  moduleName = "AsyncAwaitSampleTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/uu206340/Work/AsyncAwaitSample/AsyncAwaitSampleTests/ViewModelTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "23"
+                  endingLineNumber = "23"
+                  offsetFromSymbolStart = "34">
+               </Location>
+               <Location
+                  uuid = "7B718FE9-4B83-4322-A29F-68115543E273 - 5785cbbc09e3daf1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) suspend resume partial function for AsyncAwaitSampleTests.ViewModelTests.waitForMain() async -&gt; ()"
+                  moduleName = "AsyncAwaitSampleTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/uu206340/Work/AsyncAwaitSample/AsyncAwaitSampleTests/ViewModelTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "23"
+                  endingLineNumber = "23"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

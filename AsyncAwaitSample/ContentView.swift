@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @ObservedObject var viewModel: ViewModel
+    @ObservedObject var viewModel: AsyncViewModel
     
     var body: some View {
         NavigationView {
@@ -37,11 +37,13 @@ struct ContentView: View {
             .showLoading(loading: $viewModel.isLoading)
             .navigationTitle("List")
         }
-        .onAppear {
-            viewModel.apply(.appear)
+        .task {
+            await viewModel.apply(.appear)
         }
         .onReceive(viewModel.$searchText) { _ in
-            viewModel.apply(.search)
+            Task {
+                await viewModel.apply(.search)
+            }
         }
         .searchable(text: $viewModel.searchText)
     }
@@ -49,7 +51,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(viewModel: ViewModel())
+        ContentView(viewModel: AsyncViewModel())
     }
 }
 

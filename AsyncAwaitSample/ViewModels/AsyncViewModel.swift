@@ -25,24 +25,31 @@ class AsyncViewModel: ObservableObject {
     func apply(_ input: Input) async {
         switch input {
         case .appear:
-            isLoading = true
+            await MainActor.run {
+                isLoading = true
+            }
             await searchQiitaPost(word: "Swift")
             
         case .search:
-            isLoading = true
+            await MainActor.run {
+                isLoading = true
+            }
             await searchQiitaPost(word: searchText)
         }
     }
     
-    @MainActor
     private func searchQiitaPost(word: String) async {
         do {
             let posts = try await useCase.searchQiitaPost(word: word)
-            searchPosts = posts
+            await MainActor.run {
+                self.searchPosts = posts
+            }
         } catch {
             print(error)
         }
-        isLoading = false
+        await MainActor.run {
+            isLoading = false
+        }
     }
     
 }

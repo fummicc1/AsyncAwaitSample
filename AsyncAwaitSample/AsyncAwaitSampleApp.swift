@@ -15,7 +15,7 @@ struct AsyncAwaitSampleApp: App {
             }.sheet(isPresented: $isPresented) {
                 isPresented = false
             } content: {
-                ContentView(viewModel: ViewModel())
+                ContentView(viewModel: AsyncViewModel())
             }
 
         }

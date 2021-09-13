@@ -23,6 +23,7 @@
 		37F8E88026E8C15D003C6812 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F8E87F26E8C15D003C6812 /* APIClient.swift */; };
 		37F8E88226E8C206003C6812 /* QiitaResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F8E88126E8C206003C6812 /* QiitaResponse.swift */; };
 		37F8E88426E8C49E003C6812 /* UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F8E88326E8C49E003C6812 /* UseCase.swift */; };
+		D32973AA26EF89CA002D87D7 /* AsyncViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32973A926EF89CA002D87D7 /* AsyncViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		37F8E87F26E8C15D003C6812 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		37F8E88126E8C206003C6812 /* QiitaResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiitaResponse.swift; sourceTree = "<group>"; };
 		37F8E88326E8C49E003C6812 /* UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCase.swift; sourceTree = "<group>"; };
+		D32973A926EF89CA002D87D7 /* AsyncViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 				37F8E86426E8AF29003C6812 /* AsyncAwaitSampleTests.swift */,
 				3789644026E9AB4A0063BE98 /* UseCaseTests.swift */,
 				3789644226E9AB540063BE98 /* ViewModelTests.swift */,
+				D32973A926EF89CA002D87D7 /* AsyncViewModelTests.swift */,
 			);
 			path = AsyncAwaitSampleTests;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37F8E86526E8AF29003C6812 /* AsyncAwaitSampleTests.swift in Sources */,
+				D32973AA26EF89CA002D87D7 /* AsyncViewModelTests.swift in Sources */,
 				3789644126E9AB4A0063BE98 /* UseCaseTests.swift in Sources */,
 				3789644326E9AB540063BE98 /* ViewModelTests.swift in Sources */,
 			);

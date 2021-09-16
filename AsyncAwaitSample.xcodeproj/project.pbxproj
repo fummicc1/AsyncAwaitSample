@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		377420F226F2FC70006DD479 /* Redux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377420F126F2FC70006DD479 /* Redux.swift */; };
 		3789644126E9AB4A0063BE98 /* UseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3789644026E9AB4A0063BE98 /* UseCaseTests.swift */; };
 		3789644326E9AB540063BE98 /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3789644226E9AB540063BE98 /* ViewModelTests.swift */; };
 		3789644826E9AC930063BE98 /* StubKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3789644726E9AC930063BE98 /* StubKit */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		377420F126F2FC70006DD479 /* Redux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Redux.swift; sourceTree = "<group>"; };
 		3789644026E9AB4A0063BE98 /* UseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseTests.swift; sourceTree = "<group>"; };
 		3789644226E9AB540063BE98 /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
 		37C8E6DE26EB50BB00429BD7 /* AsyncViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncViewModel.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				37F8E88126E8C206003C6812 /* QiitaResponse.swift */,
 				37F8E88326E8C49E003C6812 /* UseCase.swift */,
 				37C8E6E026EB517000429BD7 /* Task+Ex.swift */,
+				377420F126F2FC70006DD479 /* Redux.swift */,
 			);
 			path = AsyncAwaitSample;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				37F8E88226E8C206003C6812 /* QiitaResponse.swift in Sources */,
 				37F8E85626E8AF22003C6812 /* ContentView.swift in Sources */,
 				37F8E87E26E8AF5C003C6812 /* ViewModel.swift in Sources */,
+				377420F226F2FC70006DD479 /* Redux.swift in Sources */,
 				37C8E6E126EB517000429BD7 /* Task+Ex.swift in Sources */,
 				37F8E88426E8C49E003C6812 /* UseCase.swift in Sources */,
 				37F8E85426E8AF22003C6812 /* AsyncAwaitSampleApp.swift in Sources */,

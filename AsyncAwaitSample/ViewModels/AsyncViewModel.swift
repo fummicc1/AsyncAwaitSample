@@ -1,13 +1,19 @@
 import Foundation
 import Combine
 
+@MainActor
 class AsyncViewModel: ObservableObject {
     
-    @MainActor @Published var state: State = State()
-    let environment: Environment = .init(useCase: UseCaseImpl())
+    @Published var state: State = State()
+    private let environment: Environment = .init(useCase: UseCaseImpl())
+    private let store: Store = .shared
     
     deinit {
         print("deinit \(Self.self)")
+    }
+    
+    func dispatch(action: Action) {
+        store.dispatch(action: action)
     }
 }
 
@@ -15,39 +21,42 @@ extension AsyncViewModel {
     enum Error: Swift.Error {
         case emptyQuery
     }
-    
-    enum Input {
-        case appear
-        case search
-    }
 }
 
 extension AsyncViewModel {
-    struct State {
+    struct State: StateType {
         var posts: [QiitaResponse] = []
         var searchText: String = ""
         var isLoading: Bool = false
         var errorMessage: String? = nil
     }
     
-    enum Action {
+    enum Action: ActionType {
         case showLoading
         case hideLoading
         case changeQuery(query: String)
         case setPosts([QiitaResponse])
-        case startQuery
+        case startQuery(query: String)
         case hideError
         case showError(message: String)
     }
     
-    struct Environment {
+    struct Environment: EnvironmentType {
         let useCase: UseCase
     }
     
+}
+
+extension AsyncViewModel: Reducer, Middleware {
+    
     @MainActor
-    func reducer(action: Action, state: inout State, environment: Environment) async {
+    func reducer(action: ActionType, state: StateType) -> StateType {
+        
+        guard var state = state as? State, let action = action as? Action else {
+            return state
+        }
+        
         switch action {
-            
         case .showLoading:
             state.isLoading = true
             
@@ -60,21 +69,41 @@ extension AsyncViewModel {
         case .changeQuery(let query):
             state.searchText = query
             
-        case .startQuery:
-            let query = state.searchText
-            do {
-                let posts = try await environment.useCase.searchQiitaPost(word: query)
-                await reducer(action: .setPosts(posts), state: &state, environment: environment)
-            } catch {
-                await reducer(action: .showError(message: "\(error)"), state: &state, environment: environment)
-            }
-            await reducer(action: .hideLoading, state: &state, environment: environment)
-            
         case .hideError:
             state.errorMessage = nil
             
         case .showError(let message):
             state.errorMessage = message
+            
+        default:
+            break
+        }
+        
+        return state
+    }
+    
+    func middleware(action: ActionType, state: StateType, environment: EnvironmentType) async -> ActionType {
+        
+        guard
+            var state = state as? State,
+            let action = action as? Action,
+            let environment = environment as? Environment
+        else {
+            return action
+        }
+        
+        switch action {
+        case .startQuery:
+            let query = state.searchText
+            do {
+                let posts = try await environment.useCase.searchQiitaPost(word: query)
+                return Action.setPosts(posts)
+            } catch {
+                return Action.showError(message: error.localizedDescription)
+            }
+            
+        case .changeQuery(let query):
+            return Action.startQuery(query: query)
         }
     }
 }

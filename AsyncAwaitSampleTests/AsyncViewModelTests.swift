@@ -2,43 +2,6 @@ import XCTest
 @testable import AsyncAwaitSample
 import StubKit
 
-extension AsyncViewModel {
-    
-    class MockedMiddleware: Middleware {
-        
-        init(
-            expectActions: [AsyncViewModel.MockedMiddleware.Action],
-            expectState: AsyncViewModel.MockedMiddleware.State,
-            actualActions: [AsyncViewModel.MockedMiddleware.Action] = [],
-            actualState: AsyncViewModel.MockedMiddleware.State = .init()
-        ) {
-            self.expectActions = expectActions
-            self.expectState = expectState
-            self.actualActions = actualActions
-            self.actualState = actualState
-        }
-        
-        
-        var expectActions: [Action]
-        var expectState: State
-        
-        private var actualActions: [Action]
-        private var actualState: State
-        
-        override func middleware(action: Action, state: State, environment: Environment) async -> Effect {
-            actualActions.append(action)
-            actualState = state
-            return .none
-        }
-        
-        func assert(file: StaticString = #file, line: UInt = #line) {
-            XCTAssertEqual(expectActions, actualActions, file: file, line: line)
-            XCTAssertEqual(expectState, actualState, file: file, line: line)
-        }
-    }
-    
-}
-
 class AsyncViewModelTests: XCTestCase {
     
     var target: AsyncViewModel!
@@ -46,6 +9,24 @@ class AsyncViewModelTests: XCTestCase {
 
     override func setUpWithError() throws {
         useCase = UseCaseMock()
+    }
+    
+    @MainActor
+    func test_search() async {
+        
+        let mockUseCase = UseCaseMock()
+        let posts = mockUseCase.searchQiitaPostReturn
+        
+        let viewModel = AsyncViewModel(environment: AsyncViewModel.Environment(useCase: mockUseCase))
+        let task = viewModel.apply(action: .onAppear)
+        
+        XCTAssertTrue(viewModel.state.isLoading)
+        
+        // 処理を待つ
+        await task.get()
+        
+        XCTAssertFalse(viewModel.state.isLoading)
+        XCTAssertEqual(posts, viewModel.state.posts)
     }
     
     func test_search_middleware() async {

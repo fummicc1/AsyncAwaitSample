@@ -37,15 +37,13 @@ struct ContentView: View {
             .showLoading(loading: $viewModel.state.isLoading)
             .navigationTitle("List")
         }
-        .task { @MainActor in
-            await viewModel.reducer(action: .startQuery, state: &viewModel.state, environment: viewModel.environment)
-        }
-        .onReceive(viewModel.$state.map(\.searchText).debounce(for: 0.5, scheduler: DispatchQueue.main, options: nil)) { _ in
-            Task { @MainActor in
-                await viewModel.reducer(action: .startQuery, state: &viewModel.state, environment: viewModel.environment)
-            }
-        }
+        .onAppear(perform: {
+            viewModel.apply(action: .onAppear)
+        })
         .searchable(text: $viewModel.state.searchText)
+        .onSubmit(of: .search) {
+            viewModel.apply(action: .startQuery)
+        }
     }
 }
 

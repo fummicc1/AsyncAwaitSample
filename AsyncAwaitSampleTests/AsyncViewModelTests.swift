@@ -55,11 +55,11 @@ class AsyncViewModelTests: XCTestCase {
         
         let viewModel = AsyncViewModel(environment: environment, middlewares: [])
         
-        viewModel.reducer(action: .showLoading, state: &viewModel.state, environment: environment)
+        viewModel.reducer(action: .showLoading, state: &viewModel.state)
         
         XCTAssertTrue(viewModel.state.isLoading)
         
-        viewModel.reducer(action: .setPosts(posts), state: &viewModel.state, environment: environment)
+        viewModel.reducer(action: .setPosts(posts), state: &viewModel.state)
         
         XCTAssertFalse(viewModel.state.isLoading)
     }

@@ -47,13 +47,13 @@ class AsyncViewModel: ObservableObject {
     @discardableResult
     func apply(action: Action) -> Task<Void, Never> {
         
-        reducer(action: action, state: &state, environment: environment)
+        reducer(action: action, state: &state)
         
         let task: Task<Void, Never> = Task {
             for m in middlewares {
                 let effect = await m.middleware(action: action, state: state, environment: environment)
                 if case let Effect.some(action as Action) = effect {
-                    reducer(action: action, state: &state, environment: environment)
+                    reducer(action: action, state: &state)
                 }
             }
         }
@@ -91,7 +91,7 @@ extension AsyncViewModel {
     }
     
     @MainActor
-    func reducer(action: Action, state: inout State, environment: Environment) {
+    func reducer(action: Action, state: inout State) {
         switch action {
             
         case .showLoading, .onAppear, .startSearch:

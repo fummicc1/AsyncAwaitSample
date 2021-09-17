@@ -42,7 +42,7 @@ struct ContentView: View {
         })
         .searchable(text: $viewModel.state.searchText)
         .onSubmit(of: .search) {
-            viewModel.apply(action: .startQuery)
+            viewModel.apply(action: .startSearch)
         }
     }
 }

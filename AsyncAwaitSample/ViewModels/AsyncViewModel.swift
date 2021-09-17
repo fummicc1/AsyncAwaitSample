@@ -30,7 +30,7 @@ class AsyncViewModel: ObservableObject {
     
     init(
         environment: Environment = Environment(),
-        middlewares: [Middleware] = []
+        middlewares: [Middleware] = [Middleware()]
     ) {
         self.environment = environment
         self.middlewares = middlewares
@@ -44,19 +44,23 @@ class AsyncViewModel: ObservableObject {
     }
     
     @MainActor
-    func apply(action: Action) {
+    @discardableResult
+    func apply(action: Action) -> Task<Void, Never> {
         
         reducer(action: action, state: &state, environment: environment)
         
-        Task {
+        let task: Task<Void, Never> = Task {
             for m in middlewares {
                 let effect = await m.middleware(action: action, state: state, environment: environment)
                 if case let Effect.some(action as Action) = effect {
-                    apply(action: action)
+                    reducer(action: action, state: &state, environment: environment)
                 }
             }
-        }.store(in: &cancellables)
+        }
         
+        task.store(in: &cancellables)
+        
+        return task
     }
 }
 
@@ -73,7 +77,7 @@ extension AsyncViewModel {
         case showLoading
         case hideLoading
         case setPosts([QiitaResponse])
-        case startQuery
+        case startSearch
         case hideError
         case showError(message: String)
     }
@@ -90,7 +94,7 @@ extension AsyncViewModel {
     func reducer(action: Action, state: inout State, environment: Environment) {
         switch action {
             
-        case .showLoading:
+        case .showLoading, .onAppear, .startSearch:
             state.isLoading = true
             
         case .hideLoading:
@@ -98,30 +102,23 @@ extension AsyncViewModel {
             
         case .setPosts(let posts):
             state.posts = posts
+            state.isLoading = false
             
         case .hideError:
             state.errorMessage = nil
             
         case .showError(let message):
             state.errorMessage = message
-            
-        case .onAppear, .startQuery:
-            reducer(action: .showLoading, state: &state, environment: environment)
+            state.isLoading = false
         }
     }
     
-    static let middlewares: [Middleware] = [SearchMiddleware(), LoadingMiddleware()]
+    static let middleware = Middleware()
     
     class Middleware: MiddlewareType {
         func middleware(action: Action, state: State, environment: Environment) async -> Effect {
-            .none
-        }
-    }
-    
-    class SearchMiddleware: Middleware {
-        override func middleware(action: Action, state: State, environment: Environment) async -> Effect {
             switch action {
-            case .startQuery:
+            case .startSearch:
                 let query = state.searchText
                 do {
                     let posts = try await environment.useCase.searchQiitaPost(word: query)
@@ -140,24 +137,6 @@ extension AsyncViewModel {
                     return .some(Action.showError(message: error.localizedDescription))
                 }
                 
-            default:
-                break
-            }
-            return .none
-        }
-    }
-    
-    class LoadingMiddleware: Middleware {
-        override func middleware(action: Action, state: State, environment: Environment) async -> Effect {
-            switch action {
-            case .startQuery, .onAppear:
-                return .some(Action.showLoading)
-                
-            case .setPosts:
-                return .some(Action.hideLoading)
-                
-            case .showError:
-                return .some(Action.hideLoading)
             default:
                 break
             }

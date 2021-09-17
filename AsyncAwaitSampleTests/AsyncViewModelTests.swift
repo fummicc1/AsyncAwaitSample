@@ -32,8 +32,8 @@ extension AsyncViewModel {
         }
         
         func assert(file: StaticString = #file, line: UInt = #line) {
-            XCTAssertEqual(expectState, actualState, file: file, line: line)
             XCTAssertEqual(expectActions, actualActions, file: file, line: line)
+            XCTAssertEqual(expectState, actualState, file: file, line: line)
         }
     }
     
@@ -48,30 +48,38 @@ class AsyncViewModelTests: XCTestCase {
         useCase = UseCaseMock()
     }
     
-    @MainActor
-    func test_search() async {
-        let posts = useCase.searchQiitaPostReturn
-        let expectState = AsyncViewModel.State(
-            posts: posts,
-            searchText: "Test",
-            isLoading: false,
-            errorMessage: nil
-        )
+    func test_search_middleware() async {
+        let middleware = AsyncViewModel.Middleware()
         
-        let mocked = AsyncViewModel.MockedMiddleware(
-            expectActions: [.startQuery, .showLoading, .setPosts(posts), .hideLoading],
-            expectState: expectState
-        )
+        let state = AsyncViewModel.State()
+        let useCaseMock = UseCaseMock()
+        let posts = useCaseMock.searchQiitaPostReturn
+        let environment = AsyncViewModel.Environment(useCase: useCaseMock)
         
-        target = AsyncViewModel(middlewares: AsyncViewModel.middlewares + [mocked])
-        
-        target.state.searchText = "Test"
-        target.apply(action: .startQuery)
-        
-        let exp = expectation(description: "\(#function)")
-        wait(for: [exp], timeout: 1)
-        
-        mocked.assert()
+        let effect = await middleware.middleware(action: .startSearch, state: state, environment: environment)
+        switch effect {
+        case .some(let nextAction as AsyncViewModel.Action):
+            XCTAssertEqual(AsyncViewModel.Action.setPosts(posts), nextAction)
+        default:
+            XCTFail()
+        }
     }
-
+    
+    @MainActor
+    func test_search_reducer() {
+        
+        let useCaseMock = UseCaseMock()
+        let posts = useCaseMock.searchQiitaPostReturn
+        let environment = AsyncViewModel.Environment(useCase: useCaseMock)
+        
+        let viewModel = AsyncViewModel(environment: environment, middlewares: [])
+        
+        viewModel.reducer(action: .showLoading, state: &viewModel.state, environment: environment)
+        
+        XCTAssertTrue(viewModel.state.isLoading)
+        
+        viewModel.reducer(action: .setPosts(posts), state: &viewModel.state, environment: environment)
+        
+        XCTAssertFalse(viewModel.state.isLoading)
+    }
 }

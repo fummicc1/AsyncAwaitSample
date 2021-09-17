@@ -1,10 +1,3 @@
-//
-//  AsyncViewModelTests.swift
-//  AsyncViewModelTests
-//
-//  Created by Fumiya Tanaka on 2021/09/13.
-//
-
 import XCTest
 @testable import AsyncAwaitSample
 import StubKit

@@ -1,13 +1,22 @@
-import Foundation
-import Combine
+## async/await sample
 
+### 設計
+
+### AsyncViewModelについて
+
+Reduxのようなデータフローになっています。
+まず、コアな概念としてReduxにもある`Action` `State` `Reducer` `Effect` `Middleware`を問い入れており、以下のような感じで使います。
+
+- コア概念の定義
+
+```swift
 protocol ActionType { }
 protocol StateType { }
 protocol EnvironmentType { }
 
 enum Effect {
-    case none
-    case some(ActionType)
+    case none // 副作用なし
+    case some(ActionType) // 副作用あり
 }
 
 protocol Reducer {
@@ -26,12 +35,19 @@ protocol MiddlewareType {
         environment: Environment
     ) async -> Effect
 }
+```
+
+```swift
 
 class AsyncViewModel: ObservableObject, Reducer {
+    // Stateは一つの構造体で一括管理します
     @MainActor @Published var state: State = State()
     
+    // asyncを用いる際にTaskを生成する必要がありますが、念のためTaskを保持して、deinitで解放するようにしています
     private var cancellables: Set<Task<Void, Never>> = []
+    // Environmentは副作用を実行するためのモジュールです
     private let environment: Environment
+    // Middleware（複数可）
     private let middlewares: [Middleware]
     
     init(
@@ -49,24 +65,26 @@ class AsyncViewModel: ObservableObject, Reducer {
         print("deinit \(Self.self)")
     }
     
+    // View→ViewModelのデータフローを担っています
     @MainActor
-    @discardableResult
-    func apply(action: Action) -> Task<Void, Never> {
-        
+    func apply(action: Action) {
+
+        // 最初にReducerを実行した後に、Middleware→Reducer→Middlewareを繰り返して、複雑な処理ができるようにしています
+
+        // Reducerの実行をします
         reducer(action: action, state: &state)
         
         let task: Task<Void, Never> = Task {
             for m in middlewares {
-                let effect = await m.middleware(action: action, state: state, environment: environment)
+                // Middlewareは返り値にEffectを返します
+                let effect = await m.middleware(action: action, state: state, environment: environment)        
+                // もし、Actionが存在し、処理可能であればreducerで状態を更新します        
                 if case let Effect.some(action as Action) = effect {
                     reducer(action: action, state: &state)
                 }
             }
         }
-        
-        task.store(in: &cancellables)
-        
-        return task
+        task.store(in: &cancellables)        
     }
 }
 
@@ -150,3 +168,6 @@ extension AsyncViewModel {
         }
     }
 }
+
+```
+
